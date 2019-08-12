@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Text, StyleSheet, View, FlatList, Image } from 'react-native';
-import { ListItem } from "react-native-elements"
+import { ListItem, SearchBar } from "react-native-elements"
+import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import Config from "../constants/Config";
 
 export default class LinksScreen extends React.Component{
@@ -9,21 +10,23 @@ export default class LinksScreen extends React.Component{
 
     this.state = {
       dataSource: [{key:1, name:'const abc item'}, {key:2, name:'const def item'}],
+      search: ''
     };
-    this.getRemoteData();
   }
 
   static navigationOptions = {
-    title: 'LinksScreen'
+    title: 'Peliculas'
   };
 
   getImage(path){
-    console.log("https://image.tmdb.org/t/p/w200/" + path);
     return "https://image.tmdb.org/t/p/w200" + path;
   }
 
-  getRemoteData = () => {
-    let uri = `${Config.url}${Config.apikey}&language=en-US&page=1&include_adult=false&query=harry`;
+  getRemoteData = (text) => {
+    if(text == ''){
+      alert("Debe ingresar un texto.");
+    }
+    let uri = `${Config.url}${Config.apikey}&language=en-US&page=1&include_adult=false&query=${text}`;
     console.log(uri);
     fetch(uri)
       .then(res => res.json())
@@ -38,14 +41,25 @@ export default class LinksScreen extends React.Component{
   };
 
   renderNativeItem = (item) => {
-    return <ListItem
-            roundAvatar
-            key={item.original_title}
-            title={item.title}
-            subtitle={item.original_title}
-            avatar={{ uri: this.getImage(item.poster_path)}}
-            onPress={() => this.onPressItem(item)}
-          />;
+    return <Card>
+            <CardImage 
+              source={{uri: this.getImage(item.poster_path)}} 
+            />
+            <CardTitle 
+              title={item.title}
+              subtitle={item.vote_average}
+            />
+            <CardContent text={item.overview} />
+            <CardAction 
+              separator={true} 
+              inColumn={false}>
+              <CardButton
+                onPress={() => this.props.navigation.navigate('MovieDetailScreen', {item: item})}
+                title="Ver Detalles"
+                color="blue"
+              />
+            </CardAction>
+          </Card>;
   }
 
   capFirstLetter = (string) => {
@@ -55,17 +69,26 @@ export default class LinksScreen extends React.Component{
   onPressItem = (item) => {
     this.props.navigation.navigate('MovieDetailScreen', {item: item})
   }
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
   
   render() {
     return (
       <View>
+        <View style={styles.title}>
+          <Text>Buscador de Peliculas</Text>
+        </View>
+        <SearchBar
+          placeholder="Ingrese un nombre.."
+          value={this.state.search}
+          onChangeText={this.updateSearch}
+        />
+        <Button title="Buscar peliculas" onPress={() => this.getRemoteData(this.state.search)} loading/>
         <FlatList
           data={this.state.data}
           renderItem={({item}) => this.renderNativeItem(item)}
-        />
-        <Button
-          title="Go Detail"
-          onPress={() => this.props.navigation.navigate('MovieDetail', {source: "LinksScreen"})}
         />
       </View>
     );
@@ -78,4 +101,11 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fff',
   },
+  title: {
+    alignItems: 'center',
+    fontSize: 20,
+    marginTop: 10,
+    marginBottom: 20,
+    fontWeight: 'bold'
+  }
 });

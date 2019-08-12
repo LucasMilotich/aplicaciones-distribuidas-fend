@@ -4,7 +4,7 @@ import { Button, Text, View, StyleSheet, Image } from 'react-native';
 
 export default class MovieDetailScreen extends React.Component {
     static navigationOptions = {
-      title: 'MovieDetailScreen',
+      title: 'Detalle de Pelicula',
       headerBackTitle: 'Detalles'
     };
 
