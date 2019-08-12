@@ -56,15 +56,16 @@ export default class Login extends Component {
 
     login(){
         this.setState({loading: true});
-        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (reg.test(this.state.user) === true){
+        //const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        /*if (reg.test(this.state.user) === true){
             
-            let data = {
+            */let data = {
                 email: this.state.user,
                 pass: this.state.pw
             }
 
-            const endpoint_auth = `${Config.api_url}/auth/signin`;
+            const endpoint_auth = `${Config.api_url}/login`;
+            console.log(endpoint_auth);
             fetch(endpoint_auth,
                 {
                     method: 'POST',
@@ -84,22 +85,25 @@ export default class Login extends Component {
                 }
             ).then(responseOk => {
                 if(responseOk){
+                    console.log("Paso bien");
                     storedData = JSON.stringify(responseOk);
                     this.storeData(storedData);
                     this.setState({loading: false});
-                    this.props.navigation.navigate('Movies', {response: responseOk});
+                    this.props.navigation.navigate('Home', {response: responseOk});
                 }
                 else{
+                    console.log(data.email);
+                    console.log(data.pass);
                     Alert.alert("Error","User or password are invalid.");
                 }
     
             })
             ;
-
+/*
         }
         else{
             Alert.alert("Error","Incorrect email format.");
-        }
+        }*/
     }
 
     storeData = async (user) => {
@@ -211,6 +215,7 @@ export default class Login extends Component {
                             onChangeText={this.updateUser}
                             value={this.state.user}
                             label="User"
+                            autoCapitalize = "none"
                         />
                         <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}}  
