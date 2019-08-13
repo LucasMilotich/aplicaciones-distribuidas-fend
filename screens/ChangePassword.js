@@ -38,7 +38,6 @@ class ChangePassword extends React.Component{
                     body: JSON.stringify(data),
                     headers:{
                         'Content-Type': 'application/json',
-                        'authorization': `Bearer ${this.state.user.token}` 
                     }
                 }
             ).then(
