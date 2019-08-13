@@ -86,7 +86,7 @@ export default class Login extends Component {
                     storedData = JSON.stringify(responseOk);
                     this.storeData(storedData);
                     this.setState({loading: false});
-                    this.props.navigation.navigate('Home', {response: responseOk});
+                    this.props.navigation.navigate('Links', {response: responseOk});
                 }
                 else{
                     Alert.alert("Error",responseOk.message);
