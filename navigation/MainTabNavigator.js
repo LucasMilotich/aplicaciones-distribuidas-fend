@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import CommentsScreen from '../screens/CommentsScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -39,7 +40,8 @@ HomeStack.path = '';
 const LinksStack = createStackNavigator(
   {
     Links: LinksScreen,
-    MovieDetailScreen: MovieDetailScreen
+    MovieDetailScreen: MovieDetailScreen,
+    CommentsScreen: CommentsScreen
   },
   config
 );

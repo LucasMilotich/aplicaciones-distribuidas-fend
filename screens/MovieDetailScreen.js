@@ -26,6 +26,7 @@ export default class MovieDetailScreen extends React.Component {
   render() {
     const source = this.props.navigation.state.params.source;
     const item = this.props.navigation.state.params.item;
+    console.log(item)
     let name = "";
     let vote_average = "";
     let overview = "";
@@ -49,17 +50,17 @@ export default class MovieDetailScreen extends React.Component {
        
 
 <Image
-          source={{ uri: this.getImage(image) }}
+          source={{ uri: image }}
           style={{   width: '100%', height: 400, resizeMode: 'stretch'}} 
         />
           <Text style={{fontSize:40, padding: '8% 8% 8% 8%'}}>{name}</Text>
           <Divider/>
           <Text style={{fontSize:25, marginLeft: '35%'}}>{ "Puntaje: " + vote_average}</Text>
           <Divider/>
-          <Text style={{ padding: '2% 2% 2% 2%'}}>{ + overview}</Text>
+          <Text style={{ padding: '2% 2% 2% 2%'}}>{  overview}</Text>
           <Divider/>
           <Button primary text="Agregar comentario" />
-          <Button onPress={() => this.props.navigation.navigate('CommentsScreen', {item: item})}primary text="Ver comentarios" />
+          <Button onPress={() => this.props.navigation.navigate('CommentsScreen', {movieId: item.id})}primary text="Ver comentarios" />
 
 
         

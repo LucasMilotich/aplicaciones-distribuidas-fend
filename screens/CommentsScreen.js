@@ -5,33 +5,30 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 import Config from "../constants/Config";
 
 export default class CommentsScreen extends React.Component{
-  constructor() {
-    super();
+ 
 
-    this.state = {
-      dataSource: [{key:1, name:'const abc item'}, {key:2, name:'const def item'}],
-      search: ''
-    };
+  state = {
+    comments: []
   }
 
   static navigationOptions = {
     title: 'CommentsScreen',
-    headerBackTitle: 'Detalles'
+    headerBackTitle: 'Comentarios'
   };
 
-  getImage(path){
-    return "https://image.tmdb.org/t/p/w200" + path;
-  }
 
-  getRemoteData = (text) => {
-  
-    let uri = `${Config.url}${Config.apikey}&language=en-US&page=1&include_adult=false&query=a`;
+
+  componentDidMount = () => {
+    let instance = this;
+    const movieId = this.props.navigation.state.params.movieId;
+    let uri = `http://localhost:8080/movies/${movieId}/comments`;
     console.log(uri);
     fetch(uri)
       .then(res => res.json())
       .then(res => {
+        console.log(res.comments)
         this.setState({
-          data: res.results
+          comments: res.comments
         });
       })
       .catch(error => {
@@ -40,46 +37,30 @@ export default class CommentsScreen extends React.Component{
   };
 
   renderNativeItem = (item) => {
+    console.log(item)
     return <Card>
-            <CardImage 
-              source={{uri: this.getImage(item.poster_path)}} 
-            />
             <CardTitle 
-              title={item.title}
-              subtitle={item.vote_average}
+              title={item.username + ' dijo '}
+              
             />
-            <CardContent text={item.overview} />
-            <CardAction 
-              separator={true} 
-              inColumn={false}>
-              <CardButton
-                onPress={() => this.props.navigation.navigate('MovieDetailScreen', {item: item})}
-                title="Ver Detalles"
-                color="blue"
-              />
-            </CardAction>
+            <CardContent text={item.comment} />
+            
           </Card>;
   }
 
   
 
-  onPressItem = (item) => {
-    this.props.navigation.navigate('MovieDetailScreen', {item: item})
-  }
-
-  updateSearch = search => {
-    this.setState({ search });
-  };
-  
   render() {
+    
     return (
-      <View>
+      <View stlye={{width: 400, heigth: 400}}>
         <View style={styles.title}>
           <Text>Comentarios</Text>
         </View>
        
         <FlatList
-          data={this.state.data}
+          data={this.state.comments}
+          extraData = {this.state.comments}
           renderItem={({item}) => this.renderNativeItem(item)}
         />
       </View>
