@@ -74,7 +74,6 @@ export default class Login extends Component {
                 }
             ).then(
                 (response) => {
-                    // console.log(response);
                     if(response.status == 200){
                         return response.json();
                     }else{
@@ -83,7 +82,7 @@ export default class Login extends Component {
                     }
                 }
             ).then(responseOk => {
-                if(responseOk._id){
+                if(responseOk.username){
                     storedData = JSON.stringify(responseOk);
                     this.storeData(storedData);
                     this.setState({loading: false});
@@ -182,7 +181,6 @@ export default class Login extends Component {
                             onChangeText={this.updateNewPw}
                             label="Password"
                             secureTextEntry={true}
-                            value={this.state.newPw}
                         />
                         <View style={{margin:7}} />
                         <Button 
@@ -213,6 +211,7 @@ export default class Login extends Component {
                             onChangeText={this.updateUser}
                             value={this.state.user}
                             label="User"
+                            autoCapitalize = "none"
                         />
                         <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}}  
