@@ -82,7 +82,7 @@ export default class Login extends Component {
                     }
                 }
             ).then(responseOk => {
-                if(responseOk.username){
+                if(responseOk._id){
                     storedData = JSON.stringify(responseOk);
                     this.storeData(storedData);
                     this.setState({loading: false});
