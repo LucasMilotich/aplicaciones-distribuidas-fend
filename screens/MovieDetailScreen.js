@@ -7,6 +7,7 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 
 
 export default class MovieDetailScreen extends React.Component {
+
   static navigationOptions = {
     title: 'MovieDetailScreen',
     headerBackTitle: 'Detalles'
@@ -31,7 +32,7 @@ export default class MovieDetailScreen extends React.Component {
       overview = item.overview
     }
     return (
-      <View style = {{ height: '100%', backgroundColor: 'grey'}}>
+      <View style = {{ height: '100%'}}>
       <Card
         style= {{
           flexWrap: 'wrap',
