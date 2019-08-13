@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, StyleSheet, View, FlatList, Image } from 'react-native';
+import { Button, Text, StyleSheet, View, FlatList, Image, ActivityIndicator } from 'react-native';
 import { ListItem, SearchBar } from "react-native-elements"
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import Config from "../constants/Config";
@@ -11,7 +11,8 @@ export default class LinksScreen extends React.Component{
     this.state = {
       dataSource: [{key:1, name:'const abc item'}, {key:2, name:'const def item'}],
       search: '',
-      trending: true
+      trending: true,
+      loading:true
       
     };
     this.getRemoteData();
@@ -26,14 +27,15 @@ export default class LinksScreen extends React.Component{
   }
 
   getRemoteData = (text) => {
-    if(this.state.trending){
+    if(this.state.trending || text == ''){
       let uri = `${Config.url2}movies`;
       console.log(uri);
       fetch(uri)
         .then(res => res.json())
         .then(res => {
           this.setState({
-            data: res.movies
+            data: res.movies,
+            loading:false
           });
         })
         .catch(error => {
@@ -41,16 +43,19 @@ export default class LinksScreen extends React.Component{
         });
       this.state.trending = false;
     }else{
-      if(text == ''){
-        alert("Debe ingresar un texto.");
-      }
+      this.setState({
+        
+        loading:true
+      });
+      
       let uri = `${Config.url2}movies/search?query=${text}`;
       console.log(uri);
       fetch(uri)
         .then(res => res.json())
         .then(res => {
           this.setState({
-            data: res.movies
+            data: res.movies,
+            loading:false
           });
         })
         .catch(error => {
@@ -91,25 +96,35 @@ export default class LinksScreen extends React.Component{
   }
 
   updateSearch = search => {
-    this.setState({ search });
+    
+
+    if (search == '' || search == null){
+      console.log("asdadsadasd")
+      this.setState({ search: search, trending : true });
+      
+    } else {
+      this.setState({ search });
+    }
+
+    this.getRemoteData(search)
   };
   
   render() {
     return (
       <View>
-        <View >
-          <Text style={styles.title}>Buscador de Peliculas</Text>
-        </View>
+        
         <SearchBar
           placeholder="Ingrese un nombre.."
           value={this.state.search}
           onChangeText={this.updateSearch}
         />
-        <Button title="Buscar peliculas" onPress={() => this.getRemoteData(this.state.search)}/>
+        
+        
         <FlatList
           data={this.state.data}
           renderItem={({item}) => this.renderNativeItem(item)}
         />
+        <ActivityIndicator size="large" color="#0000ff"  animating={this.state.loading}/>
       </View>
     );
   }

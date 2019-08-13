@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, StyleSheet, View, FlatList, Image } from 'react-native';
+import { Button, Text, StyleSheet, View, FlatList, Image, ActivityIndicator } from 'react-native';
 import { ListItem, SearchBar } from "react-native-elements"
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import Config from "../constants/Config";
@@ -8,7 +8,8 @@ export default class CommentsScreen extends React.Component{
  
 
   state = {
-    comments: []
+    comments: [],
+    loading: true
   }
 
   static navigationOptions = {
@@ -28,7 +29,8 @@ export default class CommentsScreen extends React.Component{
       .then(res => {
         console.log(res.comments)
         this.setState({
-          comments: res.comments
+          comments: res.comments,
+          loading:false
         });
       })
       .catch(error => {
@@ -57,12 +59,13 @@ export default class CommentsScreen extends React.Component{
         <View style={styles.title}>
           <Text>Comentarios</Text>
         </View>
-       
+        
         <FlatList
           data={this.state.comments}
           extraData = {this.state.comments}
           renderItem={({item}) => this.renderNativeItem(item)}
         />
+        <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
       </View>
     );
   }
