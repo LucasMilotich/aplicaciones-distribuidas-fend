@@ -12,8 +12,8 @@ export default class CommentsScreen extends React.Component{
   }
 
   static navigationOptions = {
-    title: 'CommentsScreen',
-    headerBackTitle: 'Comentarios'
+    title: 'Comentarios',
+    headerBackTitle: 'Detalle'
   };
 
 

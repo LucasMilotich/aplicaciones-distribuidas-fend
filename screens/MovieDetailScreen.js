@@ -59,15 +59,8 @@ export default class MovieDetailScreen extends React.Component {
           <Divider/>
           <Text style={{ padding: '2% 2% 2% 2%'}}>{  overview}</Text>
           <Divider/>
-          <Button primary text="Agregar comentario" />
+          <Button primary text="Agregar comentario"/>
           <Button onPress={() => this.props.navigation.navigate('CommentsScreen', {movieId: item.id})}primary text="Ver comentarios" />
-
-
-        
-
-
-
-
       </Card>
       
       </ScrollView>
