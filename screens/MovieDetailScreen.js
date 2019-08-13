@@ -1,8 +1,9 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
-import { Button, Text, View, StyleSheet, Image } from 'react-native';
+import { Text, ScrollView, StyleSheet, Image } from 'react-native';
 import { Title } from 'react-native-paper';
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
+import { Card, Divider, Button } from 'react-native-material-ui';
+
 
 
 
@@ -16,6 +17,10 @@ export default class MovieDetailScreen extends React.Component {
   getImage(path) {
     console.log("https://image.tmdb.org/t/p/w400" + path);
     return "https://image.tmdb.org/t/p/w400" + path;
+  }
+
+  onPressItem = (item) => {
+    this.props.navigation.navigate('CommentsScreen', {item: item})
   }
 
   render() {
@@ -32,11 +37,10 @@ export default class MovieDetailScreen extends React.Component {
       overview = item.overview
     }
     return (
-      <View style = {{ height: '100%'}}>
+      <ScrollView style = {{ }}>
       <Card
         style= {{
-          flexWrap: 'wrap',
-          flexGrow: '1'}}
+          }}
 
 
       >
@@ -44,18 +48,18 @@ export default class MovieDetailScreen extends React.Component {
 
        
 
-<CardImage
+<Image
           source={{ uri: this.getImage(image) }}
-          style={{   width: '100%', height: '110%',flexWrap: 'wrap'}} 
+          style={{   width: '100%', height: 400, resizeMode: 'stretch'}} 
         />
-         <CardTitle
-          style ={{marginTop: '10%'}}
-          title={name}
-          subtitle={"Puntaje promedio " + vote_average}
-        />
-        
-        <CardContent  style = {{flexWrap: 'wrap'}} text={ overview } />
-
+          <Text style={{fontSize:40, padding: '8% 8% 8% 8%'}}>{name}</Text>
+          <Divider/>
+          <Text style={{fontSize:25, marginLeft: '35%'}}>{ "Puntaje: " + vote_average}</Text>
+          <Divider/>
+          <Text style={{ padding: '2% 2% 2% 2%'}}>{ + overview}</Text>
+          <Divider/>
+          <Button primary text="Agregar comentario" />
+          <Button onPress={() => this.props.navigation.navigate('CommentsScreen', {item: item})}primary text="Ver comentarios" />
 
 
         
@@ -64,22 +68,8 @@ export default class MovieDetailScreen extends React.Component {
 
 
       </Card>
-      <CardAction
-          separator={true}
-          inColumn={false}>
-          <CardButton
-            onPress={() => { }}
-            title="Agregar comentario"
-            color="blue"
-          />
-          <CardButton
-            onPress={() => { }}
-            title="Ver comentarios"
-            color="blue"
-            
-          />
-        </CardAction>
-      </View>
+      
+      </ScrollView>
     );
   }
   _goHome = async () => {
