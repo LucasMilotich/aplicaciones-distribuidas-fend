@@ -33,7 +33,6 @@ export default class MovieDetailScreen extends React.Component {
   }
 
   sendInput = (inputText) => {
-    console.log("Se va a comentar"+inputText);
     let data = {
       username: this.state.user,
       comment: inputText,
@@ -42,35 +41,33 @@ export default class MovieDetailScreen extends React.Component {
 
     const endpoint_auth = `${Config.url2}movies/${data.movieId}/comment`;
     fetch(endpoint_auth,
-        {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }
+      {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers:{
+              'Content-Type': 'application/json'
+          }
+      }
     ).then(
         (response) => {
-            if(response.status == 200){
-                return response.json();
-            }else{
-                Alert.alert("Error","Server error");
-                return null;
-            }
+          if(response.status == 200){
+              return response.json();
+          }else{
+              Alert.alert("Error","Server error");
+              return null;
+          }
         }
     ).then(responseOk => {
-        if(responseOk._id){
-            storedData = JSON.stringify(responseOk);
-            this.storeData(storedData);
-            this.setState({isDialogVisible: false});
-            //this.props.navigation.navigate('Links', {response: responseOk});
-        }
-        else{
-            Alert.alert("Error",responseOk.message);
-        }
-
-    })
-    ;
+      if(responseOk._id){
+          storedData = JSON.stringify(responseOk);
+          this.storeData(storedData);
+          this.setState({isDialogVisible: false});
+          //this.props.navigation.navigate('Links', {response: responseOk});
+      }
+      else{
+          Alert.alert("Error",responseOk.message);
+      }
+    });
   }
 
   render() {
@@ -89,14 +86,11 @@ export default class MovieDetailScreen extends React.Component {
     }
     return (
       <ScrollView style = {{ }}>
-        <Card
-          style= {{
-            }}
-        >
-        <Image
-          source={{ uri: image }}
-          style={{   width: '100%', height: 400, resizeMode: 'stretch'}} 
-        />
+        <Card style= {{}}>
+          <Image
+            source={{ uri: image }}
+            style={{   width: '100%', height: 400, resizeMode: 'stretch'}} 
+          />
           <Text style={{fontSize:40, padding: '8% 8% 8% 8%'}}>{name}</Text>
           <Divider/>
           <Text style={{fontSize:25, marginLeft: '35%'}}>{ "Puntaje: " + vote_average}</Text>

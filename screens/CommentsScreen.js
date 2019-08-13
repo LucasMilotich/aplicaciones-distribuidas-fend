@@ -5,8 +5,6 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 import Config from "../constants/Config";
 
 export default class CommentsScreen extends React.Component{
- 
-
   state = {
     comments: [],
     loading: true
@@ -17,8 +15,6 @@ export default class CommentsScreen extends React.Component{
     headerBackTitle: 'Detalle'
   };
 
-
-
   componentDidMount = () => {
     let instance = this;
     const movieId = this.props.navigation.state.params.movieId;
@@ -27,7 +23,6 @@ export default class CommentsScreen extends React.Component{
     fetch(uri)
       .then(res => res.json())
       .then(res => {
-        console.log(res.comments)
         this.setState({
           comments: res.comments,
           loading:false
@@ -43,17 +38,12 @@ export default class CommentsScreen extends React.Component{
     return <Card>
             <CardTitle 
               title={item.username + ' dijo '}
-              
             />
             <CardContent text={item.comment} />
-            
           </Card>;
   }
 
-  
-
   render() {
-    
     return (
       <View stlye={{width: 400, heigth: 400}}>
         <View style={styles.title}>

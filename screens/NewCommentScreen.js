@@ -13,8 +13,7 @@ export default class NewCommentScreen extends React.Component{
       }
     this._asyncUser();
   }
-    
-
+  
   static navigationOptions = {
     title: 'Nuevo comentario',
     headerBackTitle: 'Volver'
@@ -25,7 +24,6 @@ export default class NewCommentScreen extends React.Component{
     this.setState({user:usuario});
   };
   
-
 sendInput = (inputText) => {
     const valor = this.state.user;
     let data = {
@@ -33,10 +31,6 @@ sendInput = (inputText) => {
         comment: inputText,
         movie_id: this.props.navigation.state.params.item.id
     }
-    console.log(this.props.navigation.state.params.item);
-    console.log(data.username);
-    console.log(data.comment);
-    console.log(data.movie_id);
     const endpoint_auth = `${Config.url2}movies/${data.movieId}/comment`;
     fetch(endpoint_auth,
         {
@@ -48,9 +42,7 @@ sendInput = (inputText) => {
         }
     ).then(
         (response) => {
-            console.log(response)
             if(response.status == 200){
-                console.log("Comentario grabado");
                 alert("Comentario grabado exitosamente!");
                 this.props.navigation.navigate('MovieDetailScreen', {item: this.props.navigation.state.params.item});
             }else{
