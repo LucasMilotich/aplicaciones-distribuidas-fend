@@ -10,8 +10,10 @@ export default class LinksScreen extends React.Component{
 
     this.state = {
       dataSource: [{key:1, name:'const abc item'}, {key:2, name:'const def item'}],
-      search: ''
+      search: '',
+      trending: true
     };
+    this.getRemoteData();
   }
 
   static navigationOptions = {
@@ -23,21 +25,38 @@ export default class LinksScreen extends React.Component{
   }
 
   getRemoteData = (text) => {
-    if(text == ''){
-      alert("Debe ingresar un texto.");
-    }
-    let uri = `${Config.url}${Config.apikey}&language=en-US&page=1&include_adult=false&query=${text}`;
-    console.log(uri);
-    fetch(uri)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: res.results
+    console.log(text);
+    if(this.state.trending){
+      let uri = `${Config.url2}movies`;
+      console.log(uri);
+      fetch(uri)
+        .then(res => res.json())
+        .then(res => {
+          this.setState({
+            data: res.results,
+            trending: false
+          });
+        })
+        .catch(error => {
+          console.log("get data error from:" + uri + " error:" + error);
         });
-      })
-      .catch(error => {
-        console.log("get data error from:" + uri + " error:" + error);
-      });
+    }else{
+      if(text == ''){
+        alert("Debe ingresar un texto.");
+      }
+      let uri = `${Config.url2}movies/search?&query=${text}`;
+      console.log(uri);
+      fetch(uri)
+        .then(res => res.json())
+        .then(res => {
+          this.setState({
+            data: res.results
+          });
+        })
+        .catch(error => {
+          console.log("get data error from:" + uri + " error:" + error);
+        });
+    }
   };
 
   renderNativeItem = (item) => {
