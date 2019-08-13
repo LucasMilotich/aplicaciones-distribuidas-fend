@@ -6,22 +6,12 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 class Navigation extends Component {
   render () {
-
-    // const {navigate} = this.props.navigation;
-
     return (
       <View >
         <Header
-          leftComponent={{ icon: 'tv', color: '#fff' }}
-          centerComponent={{ text: 'App Movies', style: { color: '#fff' } }}
-          rightComponent={{ 
-              icon: 'home', 
-              color: '#fff',
-              // onPress: () => alert("aa"),
-            }}
+          centerComponent={{ text: 'Movies App', style: { color: '#fff' } }}
         />
       </View>
-
     )
   }
 }

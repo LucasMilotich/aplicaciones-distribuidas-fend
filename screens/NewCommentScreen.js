@@ -74,13 +74,6 @@ sendInput = (inputText) => {
                 Enviar
             </Button>
         </View>
-        <View>
-            <Button onPress={() => this.props.navigation.navigate('MovieDetailScreen', {item: this.props.navigation.state.params.item})}
-                    mode="outlined"
-                    color="lightblue">
-                Atrás
-            </Button>
-        </View>
       </View>
     );
   }

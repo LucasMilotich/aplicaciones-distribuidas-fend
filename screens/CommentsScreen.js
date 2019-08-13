@@ -18,7 +18,7 @@ export default class CommentsScreen extends React.Component{
   componentDidMount = () => {
     let instance = this;
     const movieId = this.props.navigation.state.params.movieId;
-    let uri = `http://localhost:8080/movies/${movieId}/comments`;
+    let uri = `${Config.url2}movies/${movieId}/comments`;
     console.log(uri);
     fetch(uri)
       .then(res => res.json())
@@ -36,7 +36,7 @@ export default class CommentsScreen extends React.Component{
   renderNativeItem = (item) => {
     console.log(item)
     return <Card>
-            <CardTitle 
+            <CardTitle style={styles.title}
               title={item.username + ' dijo '}
             />
             <CardContent text={item.comment} />
@@ -54,6 +54,7 @@ export default class CommentsScreen extends React.Component{
           data={this.state.comments}
           extraData = {this.state.comments}
           renderItem={({item}) => this.renderNativeItem(item)}
+          keyExtractor={(item, index) => index.toString()}
         />
         <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
       </View>

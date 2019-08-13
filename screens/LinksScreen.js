@@ -68,7 +68,7 @@ export default class LinksScreen extends React.Component{
             <CardImage 
               source={{uri: item.poster_path}} 
             />
-            <CardTitle 
+            <CardTitle style= {styles.title}
               title={item.original_title}
               subtitle={item.vote_average}
             />
@@ -105,6 +105,7 @@ export default class LinksScreen extends React.Component{
         <FlatList
           data={this.state.data}
           renderItem={({item}) => this.renderNativeItem(item)}
+          keyExtractor={(item, index) => index.toString()}
         />
         <ActivityIndicator size="large" color="#0000ff"  animating={this.state.loading}/>
       </View>
