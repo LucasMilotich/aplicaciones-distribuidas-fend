@@ -12,6 +12,7 @@ export default class LinksScreen extends React.Component{
       dataSource: [{key:1, name:'const abc item'}, {key:2, name:'const def item'}],
       search: '',
       trending: true
+      
     };
     this.getRemoteData();
   }
@@ -25,7 +26,6 @@ export default class LinksScreen extends React.Component{
   }
 
   getRemoteData = (text) => {
-    console.log(text);
     if(this.state.trending){
       let uri = `${Config.url2}movies`;
       console.log(uri);
@@ -33,39 +33,40 @@ export default class LinksScreen extends React.Component{
         .then(res => res.json())
         .then(res => {
           this.setState({
-            data: res.results,
-            trending: false
+            data: res.movies
           });
         })
         .catch(error => {
           console.log("get data error from:" + uri + " error:" + error);
         });
+      this.state.trending = false;
     }else{
       if(text == ''){
         alert("Debe ingresar un texto.");
       }
-      let uri = `${Config.url2}movies/search?&query=${text}`;
+      let uri = `${Config.url2}movies/search?query=${text}`;
       console.log(uri);
       fetch(uri)
         .then(res => res.json())
         .then(res => {
           this.setState({
-            data: res.results
+            data: res.movies
           });
         })
         .catch(error => {
           console.log("get data error from:" + uri + " error:" + error);
         });
-    }
+      }
   };
 
   renderNativeItem = (item) => {
+    console.log(item.poster_path);
     return <Card>
             <CardImage 
-              source={{uri: this.getImage(item.poster_path)}} 
+              source={{uri: item.poster_path}} 
             />
             <CardTitle 
-              title={item.title}
+              title={item.original_title}
               subtitle={item.vote_average}
             />
             <CardContent text={item.overview} />
@@ -96,15 +97,15 @@ export default class LinksScreen extends React.Component{
   render() {
     return (
       <View>
-        <View style={styles.title}>
-          <Text>Buscador de Peliculas</Text>
+        <View >
+          <Text style={styles.title}>Buscador de Peliculas</Text>
         </View>
         <SearchBar
           placeholder="Ingrese un nombre.."
           value={this.state.search}
           onChangeText={this.updateSearch}
         />
-        <Button title="Buscar peliculas" onPress={() => this.getRemoteData(this.state.search)} loading/>
+        <Button title="Buscar peliculas" onPress={() => this.getRemoteData(this.state.search)}/>
         <FlatList
           data={this.state.data}
           renderItem={({item}) => this.renderNativeItem(item)}
