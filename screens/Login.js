@@ -3,8 +3,13 @@ import {
     Text,
     View,
     AsyncStorage,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
+
+
+  
+
 
 import {TextInput, Button} from 'react-native-paper';
 import Navigation from '../components/Navigation';
@@ -20,7 +25,8 @@ export default class Login extends Component {
             newUser: "",
             newPw:"",
             newName: "",
-            newUserForm: false
+            newUserForm: false,
+            loading:false
         }
 
     }
@@ -202,6 +208,8 @@ export default class Login extends Component {
                 <View>
                     <Navigation/> 
                     <View style={{margin:20}}>
+                        
+
                         <Text 
                             style={{fontSize: 27, marginLeft:150}}>
                             Login
@@ -220,6 +228,7 @@ export default class Login extends Component {
                             secureTextEntry={true}
                         />
                         <View style={{margin:7}} />
+                        <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
                         <Button 
                             onPress={this.login.bind(this)}
                             mode="contained"
