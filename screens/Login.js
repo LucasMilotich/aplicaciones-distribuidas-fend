@@ -49,22 +49,21 @@ export default class Login extends Component {
         this.setState({ newName: newName });
     };
 
-
     updateNewUserForm (show) {
         this.setState({newUserForm: show});
     }
 
     login(){
         this.setState({loading: true});
-        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (reg.test(this.state.user) === true){
+        // const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        // if (reg.test(this.state.user) === true){
             
             let data = {
-                email: this.state.user,
-                pass: this.state.pw
+                username: this.state.user,
+                password: this.state.pw
             }
 
-            const endpoint_auth = `${Config.api_url}/auth/signin`;
+            const endpoint_auth = `${Config.api_url}/user/login`;
             fetch(endpoint_auth,
                 {
                     method: 'POST',
@@ -75,31 +74,32 @@ export default class Login extends Component {
                 }
             ).then(
                 (response) => {
+                    // console.log(response);
                     if(response.status == 200){
                         return response.json();
-                    }
-                    else{
+                    }else{
+                        Alert.alert("Error","Server error");
                         return null;
                     }
                 }
             ).then(responseOk => {
-                if(responseOk){
+                if(responseOk._id){
                     storedData = JSON.stringify(responseOk);
                     this.storeData(storedData);
                     this.setState({loading: false});
-                    this.props.navigation.navigate('Movies', {response: responseOk});
+                    this.props.navigation.navigate('Home', {response: responseOk});
                 }
                 else{
-                    Alert.alert("Error","User or password are invalid.");
+                    Alert.alert("Error",responseOk.message);
                 }
     
             })
             ;
 
-        }
-        else{
-            Alert.alert("Error","Incorrect email format.");
-        }
+        // }
+        // else{
+        //     Alert.alert("Error","Incorrect email format.");
+        // }
     }
 
     storeData = async (user) => {
@@ -111,14 +111,14 @@ export default class Login extends Component {
 
     newUser(){
         const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (reg.test(this.state.newUser) === true){
+        // if (reg.test(this.state.newUser) === true){
             let data = {
-                email: this.state.newUser,
-                pass: this.state.newPw,
-                name: this.state.newName
+                // username: this.state.newUser,
+                username: this.state.newName,
+                password: this.state.newPw,
             }
 
-            const endpoint_new_user = `${Config.api_url}/users`;
+            const endpoint_new_user = `${Config.api_url}/user/register`;
             fetch(endpoint_new_user,
                 {
                     method: 'POST',
@@ -133,12 +133,13 @@ export default class Login extends Component {
                             return response.json();
                         }
                         else{
+                            Alert.alert("Error","Server error");
                             return null;
                         }
                     }
                 ).then(responseOk => {
-                    if(responseOk){
-                        alert("Usuario creado correctamente.");
+                    if(responseOk.username){
+                        Alert.alert("Success","User created.");
                         this.setState({newUserForm: false});
                     }
                     else{
@@ -146,10 +147,10 @@ export default class Login extends Component {
                     }
                 })
                 ;
-        }
-        else{
-            Alert.alert("Error","Incorrect email format.")
-        }
+        // }
+        // else{
+        //     Alert.alert("Error","Incorrect email format.")
+        // }
     }
 
     render() {
@@ -163,12 +164,12 @@ export default class Login extends Component {
                             style={{fontSize: 27, marginLeft: 125}}>
                             New User
                         </Text>
-                        <TextInput
+                        {/* <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}} 
                             onChangeText={this.updateNewUser}
                             label="Email"
                             value={this.state.newUser}
-                        />
+                        /> */}
                         <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}} 
                             onChangeText={this.updateNewName}
@@ -181,6 +182,7 @@ export default class Login extends Component {
                             onChangeText={this.updateNewPw}
                             label="Password"
                             secureTextEntry={true}
+                            value={this.state.newPw}
                         />
                         <View style={{margin:7}} />
                         <Button 
