@@ -7,6 +7,7 @@ import LinksScreen from '../screens/LinksScreen';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CommentsScreen from '../screens/CommentsScreen';
+import ChangePassword from '../screens/ChangePassword';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -37,7 +38,7 @@ LinksStack.path = '';
 
 const SettingsStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Settings: ChangePassword,
   },
   config
 );

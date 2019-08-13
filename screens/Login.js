@@ -7,10 +7,6 @@ import {
     ActivityIndicator
 } from 'react-native';
 
-
-  
-
-
 import {TextInput, Button} from 'react-native-paper';
 import Navigation from '../components/Navigation';
 import Config from '../constants/Config';
@@ -90,6 +86,7 @@ export default class Login extends Component {
             ).then(responseOk => {
                 if(responseOk._id){
                     storedData = JSON.stringify(responseOk);
+                    global.username = this.state.user;
                     this.storeData(storedData);
                     this.setState({loading: false});
                     this.props.navigation.navigate('Links', {response: responseOk});

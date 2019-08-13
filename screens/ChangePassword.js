@@ -2,18 +2,18 @@ import React from 'react';
 import { View, Alert } from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import Config from '../constants/Config'
+import Navigation from '../components/Navigation';
 
 class ChangePassword extends React.Component{
 
-
-    constructor(props){
-        super(props);
-        this.state = {
+    constructor(){
+        super();
+            this.state = {
             newPw: "",
-            user: props.navigation.getParam('user')
+            user: global.username,
         }
 
-        this.goBack = this.goBack.bind(this);
+        // this.goBack = this.goBack.bind(this);
         this.changePw = this.changePw.bind(this);
     }
 
@@ -27,13 +27,11 @@ class ChangePassword extends React.Component{
 
     changePw(){
             
-        console.log("entre change");
-
             let data = {
-                pass: this.state.newPw
+                username: this.state.user,
+                new_password: this.state.newPw,
             }
-
-            const endpoint = `${Config.api_url}/users/`;
+            const endpoint = `${Config.api_url}/users/change_password`;
             fetch(endpoint,
                 {
                     method: 'PUT',
@@ -67,16 +65,17 @@ class ChangePassword extends React.Component{
             ; 
     }
 
-    goBack(){
-        console.log("entre go back")
-        this.props.navigation.navigate('Profile');
-    }
+    // goBack(){
+    //     console.log("entre go back")
+    //     this.props.navigation.navigate('Profile');
+    // }
 
 
     render(){
 
         return(
-            <View style={{margin:50}}>
+            <View>
+                <Navigation/>
                 <TextInput
                         style={{fontSize: 18, marginTop:5, marginBottom:5, height: 50, borderColor: "grey", borderBottomWidth: 1}}
                         placeholder='New Password' 
@@ -91,12 +90,12 @@ class ChangePassword extends React.Component{
                         Change Password
                 </Button>
 
-                <Button 
+                 {/* <Button 
                     mode="outlined" 
                     onPress={this.goBack} 
                     color="lightblue" style={{marginTop:30}}>
                         Back
-                </Button>
+                </Button>  */}
 
             </View>
         )
