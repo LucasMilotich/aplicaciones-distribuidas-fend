@@ -90,7 +90,7 @@ export default class Login extends Component {
             ).then(responseOk => {
                 if(responseOk._id){
                     storedData = JSON.stringify(responseOk);
-                    this.storeData(storedData);
+                    this.storeData(data.username);
                     this.setState({loading: false});
                     this.props.navigation.navigate('Links', {response: responseOk});
                 }
@@ -109,7 +109,8 @@ export default class Login extends Component {
 
     storeData = async (user) => {
         try {
-            await AsyncStorage.setItem('@user', user)
+            await AsyncStorage.setItem('user', user);
+            //console.log(value);
         } catch (e) {
         }
     }

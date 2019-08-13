@@ -7,21 +7,19 @@ import LinksScreen from '../screens/LinksScreen';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CommentsScreen from '../screens/CommentsScreen';
+import NewCommentScreen from '../screens/NewCommentScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
-
-
-
-
 const LinksStack = createStackNavigator(
   {
     Links: LinksScreen,
     MovieDetailScreen: MovieDetailScreen,
-    CommentsScreen: CommentsScreen
+    CommentsScreen: CommentsScreen,
+    NewCommentScreen: NewCommentScreen
   },
   config
 );
