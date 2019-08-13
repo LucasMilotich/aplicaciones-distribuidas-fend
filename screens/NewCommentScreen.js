@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, TextInput, AsyncStorage } from 'react-native';
+import { StyleSheet, View, TextInput, AsyncStorage, Alert, ActivityIndicator} from 'react-native';
 import { Button } from 'react-native-paper';
 import Config from "../constants/Config";
 
@@ -7,7 +7,7 @@ export default class NewCommentScreen extends React.Component{
   constructor(){
     super();
     this.state = {
-        loading: true,
+        loading: false,
         text: '',
         user: ''
       }
@@ -15,8 +15,7 @@ export default class NewCommentScreen extends React.Component{
   }
   
   static navigationOptions = {
-    title: 'Nuevo comentario',
-    headerBackTitle: 'Volver'
+    title: 'Nuevo comentario'
   };
 
   _asyncUser = async () => {
@@ -25,6 +24,7 @@ export default class NewCommentScreen extends React.Component{
   };
   
 sendInput = (inputText) => {
+    this.setState({loading: true});
     const valor = this.state.user;
     let data = {
         username: valor,
@@ -43,11 +43,11 @@ sendInput = (inputText) => {
     ).then(
         (response) => {
             if(response.status == 200){
-                alert("Comentario grabado exitosamente!");
-                this.props.navigation.navigate('MovieDetailScreen', {item: this.props.navigation.state.params.item});
+              Alert.alert("Éxito","Comentario grabado exitosamente");  
+              this.props.navigation.navigate('MovieDetailScreen', {item: this.props.navigation.state.params.item});
             }else{
-                alert("Server error");
-                return null;
+              Alert.alert("Error","Server error");
+              return null;
             }
         }
     );
@@ -67,10 +67,12 @@ sendInput = (inputText) => {
             value={this.state.text}
           />
         </View>
+        <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
         <View>
             <Button onPress={() => this.sendInput(this.state.text)} 
                     mode="contained"
-                    color="lightblue">
+                    color="lightblue"
+                    style={{margin:20}}>
                 Enviar
             </Button>
         </View>

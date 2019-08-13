@@ -11,8 +11,7 @@ export default class CommentsScreen extends React.Component{
   }
 
   static navigationOptions = {
-    title: 'Comentarios',
-    headerBackTitle: 'Detalle'
+    title: 'Comentarios'
   };
 
   componentDidMount = () => {
@@ -37,7 +36,7 @@ export default class CommentsScreen extends React.Component{
     console.log(item)
     return <Card>
             <CardTitle style={styles.title}
-              title={item.username + ' dijo '}
+              title={item.username + ' dijo:'}
             />
             <CardContent text={item.comment} />
           </Card>;
@@ -45,11 +44,7 @@ export default class CommentsScreen extends React.Component{
 
   render() {
     return (
-      <View stlye={{width: 400, heigth: 400}}>
-        <View style={styles.title}>
-          <Text>Comentarios</Text>
-        </View>
-        
+      <View style={{width: 400, heigth: 400}}>
         <FlatList
           data={this.state.comments}
           extraData = {this.state.comments}

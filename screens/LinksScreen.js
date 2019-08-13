@@ -79,8 +79,8 @@ export default class LinksScreen extends React.Component{
               <CardButton
                 onPress={() => this.props.navigation.navigate('MovieDetailScreen', {item: item})}
                 title="Ver Detalles"
-                color="blue"
-              />
+                color="blue">
+              </CardButton>
             </CardAction>
           </Card>;
   }

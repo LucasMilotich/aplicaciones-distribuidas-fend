@@ -20,7 +20,7 @@ export default class MovieDetailScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Detalle de Pelicula',
-    headerBackTitle: 'Buscar'
+    headerBackTitle: 'Detalle'
   };
 
   getImage(path) {
