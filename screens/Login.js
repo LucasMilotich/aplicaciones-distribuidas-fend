@@ -10,8 +10,20 @@ import {
 import {TextInput, Button} from 'react-native-paper';
 import Navigation from '../components/Navigation';
 import Config from '../constants/Config';
+import Icon from 'react-native-vector-icons';
+import { ImageBackground } from 'react-native'
+
 
 export default class Login extends Component {
+
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+    
+        return {
+          headerTitle: "Wellcome to App movies",
+        };
+      };
+    
     
     constructor(props){
         super(props);
@@ -22,14 +34,10 @@ export default class Login extends Component {
             newPw:"",
             newName: "",
             newUserForm: false,
-            loading:false
+            loading: false
         }
 
     }
-
-    static navigationOptions = {
-        header: null,
-      };
 
     updateUser = user => {
         this.setState({ user: user });
@@ -57,9 +65,7 @@ export default class Login extends Component {
 
     login(){
         this.setState({loading: true});
-        // const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        // if (reg.test(this.state.user) === true){
-            
+
             let data = {
                 username: this.state.user,
                 password: this.state.pw
@@ -93,15 +99,11 @@ export default class Login extends Component {
                 }
                 else{
                     Alert.alert("Error",responseOk.message);
+                    this.setState({loading: false});
                 }
     
             })
             ;
-
-        // }
-        // else{
-        //     Alert.alert("Error","Incorrect email format.");
-        // }
     }
 
     storeData = async (user) => {
@@ -112,10 +114,7 @@ export default class Login extends Component {
     }
 
     newUser(){
-        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        // if (reg.test(this.state.newUser) === true){
             let data = {
-                // username: this.state.newUser,
                 username: this.state.newName,
                 password: this.state.newPw,
             }
@@ -149,10 +148,6 @@ export default class Login extends Component {
                     }
                 })
                 ;
-        // }
-        // else{
-        //     Alert.alert("Error","Incorrect email format.")
-        // }
     }
 
     render() {
@@ -160,22 +155,17 @@ export default class Login extends Component {
         if(this.state.newUserForm){
             return (
                 <View>
-                    <Navigation/>
+                    <ImageBackground source={{uri: 'https://i.pinimg.com/736x/4e/f1/07/4ef107f60fc952dad6ef49254d74e7dd.jpg'}} style={{width: '100%', height: '100%'}}>
+
                     <View style={{margin:20}}>
                         <Text
                             style={{fontSize: 27, marginLeft: 125}}>
                             New User
                         </Text>
-                        {/* <TextInput
-                            style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}} 
-                            onChangeText={this.updateNewUser}
-                            label="Email"
-                            value={this.state.newUser}
-                        /> */}
                         <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}} 
                             onChangeText={this.updateNewName}
-                            label="Name"
+                            label="User"
                             value={this.state.newName}
                         />
                         <TextInput
@@ -185,27 +175,35 @@ export default class Login extends Component {
                             label="Password"
                             secureTextEntry={true}
                         />
+                        
                         <View style={{margin:7}} />
                         <Button 
                             onPress={this.newUser.bind(this)}
                             mode="contained"
                             color="lightblue"
+                            loading={this.state.loading}
                         >
                             Submit
                         </Button>
                     </View>
+                    
                     <View style={{margin:20}} alignContent='center'>
-                        <Button mode="outlined" onPress={() => {this.updateNewUserForm(false)}} color="lightblue">Back</Button>
+                        <Button mode="contained" onPress={() => {this.updateNewUserForm(false)}} color="red">Back</Button>
                     </View>
+
+                    </ImageBackground>
                 </View>
             )
         }
         else{
             return (
+
                 <View>
-                    <Navigation/> 
+
+                    <ImageBackground source={{uri: 'https://i.pinimg.com/736x/4e/f1/07/4ef107f60fc952dad6ef49254d74e7dd.jpg'}} style={{width: '100%', height: '100%'}}>
+
+                    {/* <Navigation/>  */}
                     <View style={{margin:20}}>
-                        
 
                         <Text 
                             style={{fontSize: 27, marginLeft:150}}>
@@ -225,18 +223,19 @@ export default class Login extends Component {
                             secureTextEntry={true}
                         />
                         <View style={{margin:7}} />
-                        <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
                         <Button 
                             onPress={this.login.bind(this)}
                             mode="contained"
                             color="lightblue"
+                            loading={this.state.loading}
                         >
                             Enter
                         </Button>
                     </View>
                     <View style={{margin:20}}>
-                        <Button mode="outlined" onPress={() => {this.updateNewUserForm(true)}} color="lightblue">Register</Button>
+                        <Button mode="contained" color="red" onPress={() => {this.updateNewUserForm(true)} }>Register</Button>
                     </View>
+                    </ImageBackground>
                 </View>
             )
          }

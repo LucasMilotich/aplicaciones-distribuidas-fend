@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Alert } from 'react-native';
-import {TextInput, Button} from 'react-native-paper';
+import {TextInput, Button, IconButton, Text} from 'react-native-paper';
 import Config from '../constants/Config'
 import Navigation from '../components/Navigation';
+import Icon from 'react-native-vector-icons';
+
 
 class ChangePassword extends React.Component{
 
@@ -17,9 +19,20 @@ class ChangePassword extends React.Component{
         this.changePw = this.changePw.bind(this);
     }
 
-    static navigationOptions = {
-        header: null,
-      };
+    static navigationOptions = ({ navigation }) => {
+        const { params } = navigation.state
+    
+        return {
+        headerTitle: "Change password",
+        headerRight: <IconButton
+                        icon="power-settings-new"
+                        color="black"
+                        onPress={() => navigation.navigate('Login')}
+                     >
+
+                     </IconButton>
+        };
+    };
 
     updateNewPw = pw => {
         this.setState({ newPw: pw });
@@ -31,10 +44,10 @@ class ChangePassword extends React.Component{
                 username: this.state.user,
                 new_password: this.state.newPw,
             }
-            const endpoint = `${Config.api_url}/users/change_password`;
+            const endpoint = `${Config.api_url}/user/change_password`;
             fetch(endpoint,
                 {
-                    method: 'PUT',
+                    method: 'POST',
                     body: JSON.stringify(data),
                     headers:{
                         'Content-Type': 'application/json',
@@ -42,6 +55,7 @@ class ChangePassword extends React.Component{
                 }
             ).then(
                 (response) => {
+                    console.log(response);
                     if(response.status == 200){
                         return response.json();
                     }
@@ -62,7 +76,7 @@ class ChangePassword extends React.Component{
     
             })
             ; 
-    }
+    };
 
     // goBack(){
     //     console.log("entre go back")
@@ -74,18 +88,26 @@ class ChangePassword extends React.Component{
 
         return(
             <View>
-                <Navigation/>
+                <View style={{margin:20}}>
+
+
+                <Text style={{fontSize: 18, marginTop:5, marginBottom:5}}>User: {global.username}</Text>
+                <View style={{margin:7}} />
+
                 <TextInput
                         style={{fontSize: 18, marginTop:5, marginBottom:5, height: 50, borderColor: "grey", borderBottomWidth: 1}}
                         placeholder='New Password' 
                         onChangeText={this.updateNewPw}
                         label="New Password"
                         secureTextEntry={true}
-                    />
+                />
+
+                <View style={{margin:7}} />
+
                 <Button 
                     mode="contained" 
                     onPress={this.changePw} 
-                    color="lightblue">
+                    color="green">
                         Change Password
                 </Button>
 
@@ -95,7 +117,7 @@ class ChangePassword extends React.Component{
                     color="lightblue" style={{marginTop:30}}>
                         Back
                 </Button>  */}
-
+                </View>
             </View>
         )
 
