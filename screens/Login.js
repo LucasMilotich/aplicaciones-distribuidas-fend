@@ -20,7 +20,7 @@ export default class Login extends Component {
         const params = navigation.state.params || {};
     
         return {
-          headerTitle: "Wellcome to App movies",
+          headerTitle: "Welcome to App movies",
         };
       };
     

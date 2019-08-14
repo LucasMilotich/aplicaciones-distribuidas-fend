@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, StyleSheet, View, FlatList, Image, ActivityIndicator } from 'react-native';
+import { Button, Text, StyleSheet, View, FlatList, Image, ActivityIndicator, Alert } from 'react-native';
 import { ListItem, SearchBar } from "react-native-elements"
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import Config from "../constants/Config";
@@ -31,7 +31,16 @@ export default class LinksScreen extends React.Component{
       let uri = `${Config.url2}movies`;
       console.log(uri);
       fetch(uri)
-        .then(res => res.json())
+        .then( (res) => {
+          if(res.status != 200){
+            Alert.alert("Error","La API de Movies está caída!")
+            this.setState({
+              loading:false
+            });
+          }else{
+            res => res.json();
+          }
+        })
         .then(res => {
           this.setState({
             data: res.movies,
@@ -49,7 +58,16 @@ export default class LinksScreen extends React.Component{
       let uri = `${Config.url2}movies/search?query=${text}`;
       console.log(uri);
       fetch(uri)
-        .then(res => res.json())
+          .then( (res) => {
+          if(res.status != 200){
+            Alert.alert("Error","La API de Movies está caída!")
+            this.setState({
+              loading:false
+            });
+          }else{
+            res => res.json();
+          }
+        })
         .then(res => {
           this.setState({
             data: res.movies,
