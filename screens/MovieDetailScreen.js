@@ -91,11 +91,11 @@ export default class MovieDetailScreen extends React.Component {
             source={{ uri: image }}
             style={{   width: '100%', height: 400, resizeMode: 'stretch'}} 
           />
-          <Text style={{fontSize:40, padding: '8% 8% 8% 8%'}}>{name}</Text>
+          <Text style={{fontSize:35, padding: '4% 4% 4% 4%', backgroundColor:'#c6e2ff', fontWeight: 'bold'}}>{name}</Text>
           <Divider/>
-          <Text style={{fontSize:25, marginLeft: '35%'}}>{ "Puntaje: " + vote_average}</Text>
+          <Text style={{fontSize:23, backgroundColor:'#fff68f', textAlign:'center', fontWeight: 'bold'}}>{ "Puntaje: " + vote_average}</Text>
           <Divider/>
-          <Text style={{ padding: '2% 2% 2% 2%'}}>{  overview}</Text>
+          <Text style={{ padding: '2% 2% 2% 2%'}}>Sinopsis: {overview}</Text>
           <Divider/>
           <Button primary text="Agregar comentario" onPress={() => this.props.navigation.navigate('NewCommentScreen', {item: item})}/>
           <Button onPress={() => this.props.navigation.navigate('CommentsScreen', {movieId: item.id})}primary text="Ver comentarios" />

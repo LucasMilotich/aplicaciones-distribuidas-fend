@@ -101,6 +101,7 @@ export default class LinksScreen extends React.Component{
           placeholder="Ingrese un nombre.."
           value={this.state.search}
           onChangeText={this.updateSearch}
+          autoCorrect={false}
         />
         <FlatList
           data={this.state.data}

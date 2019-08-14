@@ -9,7 +9,7 @@ class Navigation extends Component {
     return (
       <View >
         <Header
-          centerComponent={{ text: 'Movies App', style: { color: '#fff' } }}
+          centerComponent={{ text: 'Movies App', style: { color: '#fff', fontWeight: 'bold', fontSize: 15} }}
         />
       </View>
     )

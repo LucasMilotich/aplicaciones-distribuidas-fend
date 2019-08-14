@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Text, StyleSheet, View, FlatList, Image, ActivityIndicator } from 'react-native';
 import { ListItem, SearchBar } from "react-native-elements"
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
+//import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
+import { Card, Divider } from 'react-native-material-ui';
 import Config from "../constants/Config";
 
 export default class CommentsScreen extends React.Component{
@@ -33,18 +34,24 @@ export default class CommentsScreen extends React.Component{
   };
 
   renderNativeItem = (item) => {
-    console.log(item)
-    return <Card>
+    /*return <Card>
             <CardTitle style={styles.title}
-              title={item.username + ' dijo:'}
+              title={item.comment}
             />
-            <CardContent text={item.comment} />
-          </Card>;
+            <CardContent text={item.username} />
+          </Card>;*/
+    return <Card style= {{}}>
+              <Text style={{fontSize:15, backgroundColor: '#c6e2ff', fontWeight: 'bold', height: 18}}>El usuario '{item.username}' dijo:</Text>
+              <Divider/>
+              <Text style={{fontSize:20}}>{item.comment}</Text>
+              <Divider/>
+              <Divider/>
+            </Card>;
   }
 
   render() {
     return (
-      <View style={{width: 400, heigth: 400}}>
+      <View style={{width: 412, heigth: 300}}>
         <FlatList
           data={this.state.comments}
           extraData = {this.state.comments}

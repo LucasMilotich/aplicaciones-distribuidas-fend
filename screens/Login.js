@@ -216,7 +216,7 @@ export default class Login extends Component {
                     </View>
                     <View style={{margin:20}}>
                         <Button 
-                            mode="outlined" 
+                            mode="contained" 
                             onPress={() => {this.updateNewUserForm(true)}} 
                             color="lightblue">
                         Registrarse
