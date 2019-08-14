@@ -78,14 +78,7 @@ class ChangePassword extends React.Component{
             ; 
     };
 
-    // goBack(){
-    //     console.log("entre go back")
-    //     this.props.navigation.navigate('Profile');
-    // }
-
-
     render(){
-
         return(
             <View>
                 <View style={{margin:20}}>
@@ -124,6 +117,5 @@ class ChangePassword extends React.Component{
     }
 
 }
-
 
 export default ChangePassword;

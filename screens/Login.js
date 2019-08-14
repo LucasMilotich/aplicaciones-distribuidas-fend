@@ -71,7 +71,7 @@ export default class Login extends Component {
                 password: this.state.pw
             }
 
-            const endpoint_auth = `${Config.api_url}/user/login`;
+            const endpoint_auth = `${Config.api_url}user/login`;
             fetch(endpoint_auth,
                 {
                     method: 'POST',
@@ -92,8 +92,8 @@ export default class Login extends Component {
             ).then(responseOk => {
                 if(responseOk._id){
                     storedData = JSON.stringify(responseOk);
+                    this.storeData(data.username);
                     global.username = this.state.user;
-                    this.storeData(storedData);
                     this.setState({loading: false});
                     this.props.navigation.navigate('Links', {response: responseOk});
                 }
@@ -108,7 +108,7 @@ export default class Login extends Component {
 
     storeData = async (user) => {
         try {
-            await AsyncStorage.setItem('@user', user)
+            await AsyncStorage.setItem('user', user);
         } catch (e) {
         }
     }
@@ -118,8 +118,7 @@ export default class Login extends Component {
                 username: this.state.newName,
                 password: this.state.newPw,
             }
-
-            const endpoint_new_user = `${Config.api_url}/user/register`;
+            const endpoint_new_user = `${Config.api_url}user/register`;
             fetch(endpoint_new_user,
                 {
                     method: 'POST',
@@ -139,12 +138,12 @@ export default class Login extends Component {
                         }
                     }
                 ).then(responseOk => {
-                    if(responseOk.username){
-                        Alert.alert("Success","User created.");
+                    if(responseOk._id){
+                        Alert.alert("Éxito","Usuario creado exitosamente!");
                         this.setState({newUserForm: false});
                     }
                     else{
-                        alert("User registration failed.");
+                        alert("El registro de usuario falló");
                     }
                 })
                 ;
@@ -159,24 +158,27 @@ export default class Login extends Component {
 
                     <View style={{margin:20}}>
                         <Text
-                            style={{fontSize: 27, marginLeft: 125}}>
-                            New User
+                            style={{fontSize: 27, marginLeft: 110, fontWeight: 'bold'}}>
+                            Registrarse
                         </Text>
                         <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}} 
                             onChangeText={this.updateNewName}
                             label="User"
                             value={this.state.newName}
+                            autoCapitalize = "none"
                         />
                         <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}}
-                            placeholder='Password' 
+                            //placeholder='Password' 
                             onChangeText={this.updateNewPw}
-                            label="Password"
+                            value={this.state.newPw}
+                            label="Contraseña"
                             secureTextEntry={true}
                         />
                         
                         <View style={{margin:7}} />
+                        <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
                         <Button 
                             onPress={this.newUser.bind(this)}
                             mode="contained"
@@ -204,22 +206,22 @@ export default class Login extends Component {
 
                     {/* <Navigation/>  */}
                     <View style={{margin:20}}>
-
                         <Text 
-                            style={{fontSize: 27, marginLeft:150}}>
+                            style={{fontSize: 27, marginLeft:150, fontWeight: 'bold'}}>
                             Login
                         </Text>
                         <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}} 
                             onChangeText={this.updateUser}
                             value={this.state.user}
-                            label="User"
+                            label="Usuario"
                             autoCapitalize = "none"
                         />
                         <TextInput
                             style={{fontSize: 18, marginTop:15, height: 50, borderColor: "grey", borderBottomWidth: 1}}  
                             onChangeText={this.updatePw}
-                            label="Password"
+                            value={this.state.pw}
+                            label="Contraseña"
                             secureTextEntry={true}
                         />
                         <View style={{margin:7}} />

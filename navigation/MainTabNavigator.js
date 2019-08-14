@@ -7,6 +7,7 @@ import LinksScreen from '../screens/LinksScreen';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CommentsScreen from '../screens/CommentsScreen';
+import NewCommentScreen from '../screens/NewCommentScreen';
 import ChangePassword from '../screens/ChangePassword';
 
 const config = Platform.select({
@@ -14,15 +15,12 @@ const config = Platform.select({
   default: {},
 });
 
-
-
-
-
 const LinksStack = createStackNavigator(
   {
     Links: LinksScreen,
     MovieDetailScreen: MovieDetailScreen,
-    CommentsScreen: CommentsScreen
+    CommentsScreen: CommentsScreen,
+    NewCommentScreen: NewCommentScreen
   },
   config
 );
@@ -30,7 +28,7 @@ const LinksStack = createStackNavigator(
 LinksStack.navigationOptions = {
   tabBarLabel: 'Peliculas',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name= {Platform.OS === 'ios' ? 'ios-film' : 'md-film'} />
   ),
 };
 
@@ -46,7 +44,7 @@ const SettingsStack = createStackNavigator(
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Usuario',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'} />
   ),
 };
 

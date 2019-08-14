@@ -44,10 +44,8 @@ export default class LinksScreen extends React.Component{
       this.state.trending = false;
     }else{
       this.setState({
-        
         loading:true
       });
-      
       let uri = `${Config.url2}movies/search?query=${text}`;
       console.log(uri);
       fetch(uri)
@@ -70,7 +68,7 @@ export default class LinksScreen extends React.Component{
             <CardImage 
               source={{uri: item.poster_path}} 
             />
-            <CardTitle 
+            <CardTitle style= {styles.title}
               title={item.original_title}
               subtitle={item.vote_average}
             />
@@ -81,48 +79,34 @@ export default class LinksScreen extends React.Component{
               <CardButton
                 onPress={() => this.props.navigation.navigate('MovieDetailScreen', {item: item})}
                 title="Ver Detalles"
-                color="blue"
-              />
+                color="blue">
+              </CardButton>
             </CardAction>
           </Card>;
   }
 
-  capFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  onPressItem = (item) => {
-    this.props.navigation.navigate('MovieDetailScreen', {item: item})
-  }
-
   updateSearch = search => {
-    
-
     if (search == '' || search == null){
-      console.log("asdadsadasd")
       this.setState({ search: search, trending : true });
-      
     } else {
       this.setState({ search });
     }
-
     this.getRemoteData(search)
   };
   
   render() {
     return (
       <View>
-        
         <SearchBar
           placeholder="Ingrese un nombre.."
           value={this.state.search}
           onChangeText={this.updateSearch}
+          autoCorrect={false}
         />
-        
-        
         <FlatList
           data={this.state.data}
           renderItem={({item}) => this.renderNativeItem(item)}
+          keyExtractor={(item, index) => index.toString()}
         />
         <ActivityIndicator size="large" color="#0000ff"  animating={this.state.loading}/>
       </View>
