@@ -44,7 +44,7 @@ class ChangePassword extends React.Component{
                 username: this.state.user,
                 new_password: this.state.newPw,
             }
-            const endpoint = `${Config.api_url}/user/change_password`;
+            const endpoint = `${Config.api_url}user/change_password`;
             fetch(endpoint,
                 {
                     method: 'POST',
