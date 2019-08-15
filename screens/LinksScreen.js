@@ -32,16 +32,20 @@ export default class LinksScreen extends React.Component{
       console.log(uri);
       fetch(uri)
         .then( (res) => {
-          if(res.status != 200){
+          const statusCode = res.status;
+          const data = res.json();
+          if(statusCode != 200){
             Alert.alert("Error","La API de Movies está caída!")
             this.setState({
               loading:false
             });
-          }else{
-            res => res.json();
+            return Promise.reject()
           }
+          return data
         })
+        
         .then(res => {
+          console.log(res)
           this.setState({
             data: res.movies,
             loading:false
@@ -58,16 +62,19 @@ export default class LinksScreen extends React.Component{
       let uri = `${Config.url2}movies/search?query=${text}`;
       console.log(uri);
       fetch(uri)
-          .then( (res) => {
-          if(res.status != 200){
-            Alert.alert("Error","La API de Movies está caída!")
-            this.setState({
-              loading:false
-            });
-          }else{
-            res => res.json();
-          }
-        })
+      .then( (res) => {
+        const statusCode = res.status;
+        const data = res.json();
+        if(statusCode != 200){
+          Alert.alert("Error","La API de Movies está caída!")
+          this.setState({
+            loading:false
+          });
+          return Promise.reject()
+        }
+        return data
+      })
+      
         .then(res => {
           this.setState({
             data: res.movies,
